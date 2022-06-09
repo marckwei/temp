@@ -1,0 +1,168 @@
+#   Copyright 2017 Google Inc. All Rights Reserved.
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+
+<root root=true> = <lines count=1000>
+
+!lineguard try { <line> } catch(e) { }
+
+<fuzzint> = -1
+<fuzzint> = 0
+<fuzzint> = 1
+<fuzzint> = 2
+<fuzzint> = 3
+<fuzzint> = 4
+<fuzzint> = 5
+<fuzzint> = 10
+<fuzzint> = 100
+<fuzzint> = 1000
+<fuzzint> = 1000000
+<fuzzint> = <largeint>
+
+<largeint> = 536870911
+<largeint> = 536870912
+<largeint> = 1073741823
+<largeint> = 1073741824
+<largeint> = 2147483647
+<largeint> = 2147483648
+<largeint> = 4294967295
+<largeint> = 4294967296
+
+<property> = foo
+<property> = prototype
+<property> = length
+<property> = constructor
+<property> = valueOf
+<property> = toJSON
+<property> = toString
+<property> = toLocaleString
+<property> = toPrecision
+<property> = toFixed
+<property> = toExponential
+<property> = source
+<property> = options
+<property> = lastIndex
+<property> = input
+<property> = caller
+<property> = callee
+<property> = arguments
+<property> = global
+
+<propertyorindex> = <property>
+<propertyorindex> = <fuzzint>
+
+<param> = <var>
+<param> = <var>
+<param> = <var>
+<param> = <var>
+<param> = <var>
+<param> = <var>
+<param> = <fuzzint>
+<param> = true
+<param> = false
+<param> = Infinity
+<param> = 'a'
+<param> = <arg>
+
+<arg> = arg1
+<arg> = arg2
+<arg> = arg3
+<arg> = arg4
+<arg> = arg5
+<arg> = arg6
+<arg> = arg7
+<arg> = arg8
+<arg> = arg9
+
+<propertydescriptorfield> = get: <function>
+<propertydescriptorfield> = set: <function>
+<propertydescriptorfield> = enumerable: <param>
+<propertydescriptorfield> = writable: <param>
+<propertydescriptorfield> = configurable: <param>
+<propertydescriptorfield> = value: <param>
+
+<propertydescriptor> = { <propertydescriptorfield> }
+<propertydescriptor> = { <propertydescriptorfield>, <propertydescriptorfield>, <propertydescriptorfield> }
+<propertydescriptor> = { <propertydescriptorfield>, <propertydescriptorfield>, <propertydescriptorfield> }
+
+<f_num> = <int min=0 max=100>
+
+<optionstring> = '<optionchar>'
+<optionstring> = '<optionchar><optionchar>'
+<optionstring> = '<optionchar><optionchar><optionchar>'
+
+<optionchar> = i
+<optionchar> = g
+<optionchar> = m
+
+<function> = f0
+<function> = f1
+<function> = f2
+<function> = f3
+<function> = f4
+<function> = f5
+<function> = f6
+<function> = f7
+<function> = f8
+<function> = f9
+
+<fuzzstring> = <fuzzstringpart>
+<fuzzstring> = <fuzzstringpart> + <fuzzstringpart>
+<fuzzstring> = <fuzzstringpart> + <fuzzstringpart> + <fuzzstringpart>
+<fuzzstringpart> = Array(<repeatcount>).join(<repeatstr>)
+<repeatcount> = 17
+<repeatcount> = 65
+<repeatcount> = 257
+<repeatcount> = 1025
+<repeatcount> = 4097
+<repeatcount> = 65537
+<repeatstr> = String.fromCharCode(<int min=0 max=127>)
+<repeatstr> = String.fromCharCode(<int min=0 max=127>, <int min=0 max=127>)
+<repeatstr> = String.fromCharCode(<int min=0 max=127>, <int min=0 max=127>, <int min=0 max=127>)
+
+<var> = vars[<int min=0 max=99>]
+
+<retvar> = vars[<int min=0 max=99>]
+
+!begin lines
+
+<var> = Array;
+<var> = ActiveXObject;
+<var> = Date;
+<var> = Boolean;
+<var> = Enumerator;
+<var> = Error;
+<var> = Function;
+<var> = JSON;
+<var> = RegExp;
+<var> = Object;
+<var> = document.createElement("foo");
+<var id=1> = document.createElement("foo"); Object.defineProperty(<var id=1>, "<propertyorindex>", {get: <function>, set: <function>} );
+<var> = new Array(<fuzzint>);
+<var> = new Array(<fuzzint>);
+<var> = new Array(<fuzzint>);
+<var> = new Array(<fuzzint>);
+<var> = new Array(<fuzzint>);
+<var> = {};
+<var> = {};
+<var> = {};
+<var> = {};
+<var> = {};
+<var> = <fuzzstring>;
+<var> = this;
+<var> = <function>;
+
+var ret = <arg>; if(ret) <retvar> = ret;
+
+
+
+!end lines
